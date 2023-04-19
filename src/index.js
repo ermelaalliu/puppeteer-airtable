@@ -28,7 +28,6 @@ configure({ apiKey: process.env.AIRTABLE_API_TOKEN });
   await page.waitForSelector("#gh-ac");
   await page.type("#gh-ac", "macbook pro m1");
 
-  /* ensure that the page has finished loading and all resources have been fetched */
   await Promise.all([
     page.click("#gh-btn"),
     page.waitForNavigation({ waitUntil: "networkidle0" }),
@@ -41,15 +40,8 @@ configure({ apiKey: process.env.AIRTABLE_API_TOKEN });
     apiKey: process.env.AIRTABLE_API_TOKEN,
   }).base(process.env.AIRTABLE_PRODUCTS_BASE_ID);
 
-  // as an argument of base() we should pass the name of the table or the id. id is better bc it never changes. one might change the name
   base(process.env.AIRTABLE_PRODUCTS_TABLE_ID).create(
-    /* each product item should have a structure like this acc to docs
-         {
-            "fields": {}
-        }
-    */
     productsData.map((product) => {
-      /* here it is better to use ids as well */
       return { fields: { ...product } };
     }),
     function (err, records) {
